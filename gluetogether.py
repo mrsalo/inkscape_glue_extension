@@ -22,11 +22,14 @@ class Glue(inkex.Effect):
         for id, node in self.selected.iteritems():
            attachable_elems.append(AttachableElement(node, elem_position_dict[id]))
 
-        sorted_elems = sorted(attachable_elems, key=lambda e: e.dimension['y'])        
-        for first,second in zip(sorted_elems, sorted_elems[1:]):
-            if self.options.direction == 'horizontal':
+        if self.options.direction == 'horizontal':
+            sorted_elems = sorted(attachable_elems, key=lambda e: e.dimension['x'])        
+            for first,second in zip(sorted_elems, sorted_elems[1:]):
                 second.attach_right_of(first)
-            elif self.options.direction == 'vertical':
+                
+        if self.options.direction == 'vertical':
+            sorted_elems = sorted(attachable_elems, key=lambda e: e.dimension['y'])        
+            for first,second in zip(sorted_elems, sorted_elems[1:]):
                 second.attach_down_to(first)
 
 class AttachableElement(object):
